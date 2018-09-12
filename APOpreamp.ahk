@@ -38,6 +38,6 @@ ShowGain() {
 
 WriteConfig() {																;The function 'WriteConfig' takes care of writing changes to the config file.
 	FileDelete, %TargetFile%.tmp.txt										;Delete the old config file in preparation for rewrite.
-	FileAppend, Preamp: %Gain% dB, %TargetFile%.tmp.txt						;Write to a Temp File.
+	FileAppend, Preamp: %Gain% dB, %TargetFile%.tmp.txt						;Write to a Temp File. This ensures the volume adjustment process is smooth and without popping noises.
 	FileCopy, %TargetFile%.tmp.txt, %TargetFile%, 1							;Overwrite the Target File with the Temp File.
 }
