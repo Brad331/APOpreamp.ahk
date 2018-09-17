@@ -6,8 +6,8 @@ CoordMode, ToolTip                                                       ;Set th
 SC130::                                                                  ;When Volume Up is pressed,
     SoundGet, SystemVolume                                               ;Find out what the current system volume is.
     if (SystemVolume = 100) {                                            ;If System Volume is maxed out but Gain is not,
-        if (Gain < 100) {
-            Gain:=Gain+2                                                 ;Increase the Gain by 1dB.
+        if (Gain < 50) {
+            Gain++                                                       ;Increase the Gain by 1dB.
             WriteConfig()                                                ;Run the 'WriteConfig' function.
         }
         ShowGain()                                                       ;Use the ShowGain function to display the Gain value in a ToolTip.
