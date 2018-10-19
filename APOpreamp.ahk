@@ -3,7 +3,7 @@ global Gain := 0								;Initialize integer 'Gain' with value 0.
 WriteConfig()									;Apply the initialized value.
 CoordMode, ToolTip                                                    		;Set the ToolTip to Coordinate Mode to make it show at an absolute position on the screen.
 
-SC130::																		;When Volume Up is pressed,
+SC130::										;When Volume Up is pressed,
     SoundGet, SystemVolume							;Find out what the current system volume is.
     if (SystemVolume = 100) {							;If System Volume is maxed out but Gain is not,
         if (Gain < 50) {
@@ -12,20 +12,20 @@ SC130::																		;When Volume Up is pressed,
         }
         ShowGain()								;Use the ShowGain function to display the Gain value in a ToolTip.
     }
-    else {																	;But if System Volume is not maxed out,
+    else {									;But if System Volume is not maxed out,
         Send {Volume_Up}							;Increase System Volume normally.
     }
-    return																	;End of this hotkey.
-SC12E::																		;When Volume Down is pressed,
+    return									;End of this hotkey.
+SC12E::										;When Volume Down is pressed,
     if (Gain > 0) {								;If the Gain can be decreased,
            Gain--								;Decrease the Gain by 1dB.
            ShowGain()								;Use the ShowGain function to display the Gain value in a ToolTip.
         WriteConfig()								;Run the 'WriteConfig' function.
     }
-    else {																	;Otherwise (if Gain is at 0),
+    else {									;Otherwise (if Gain is at 0),
         Send {Volume_Down}							;Decrease System Volume normally.
     }
-    return																	;End of this hotkey.
+    return									;End of this hotkey.
 
 ShowGain() {
     ToolTip, Gain: %Gain%, 124, 80						;Show the Gain value in a ToolTip on the screen's top-left corner.
