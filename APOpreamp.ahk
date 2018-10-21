@@ -2,13 +2,13 @@ global TargetFile := "C:\Program Files\EqualizerAPO\config\DynamiQ\Gain.txt" ;Th
 global Gain := 0                                        ;Initialize integer 'Gain' with value 0.
 WriteConfig()                                           ;Apply the initialized value.
 CoordMode, ToolTip                                      ;Set the ToolTip to Coordinate Mode to make it show at an absolute position on the screen.
-
+                                                        ;Adding the $ before the hotkey to prevent looping when the hotkey sends itself.
 $Volume_Up::                                            ;When Volume Up is pressed,
     SoundGet, SystemVolume                              ;Find out what the current system volume is.
     if (SystemVolume = 100) {                           ;If System Volume is maxed out but Gain is not,
         if (Gain < 50) {
-            Gain++                                      ;Increase the Gain by 1dB.
-            WriteConfig()                               ;Run the 'WriteConfig' function.
+            Gain++                                      ;Increase the Gain by 1dB,
+            WriteConfig()                               ;And write that into the config using the WriteConfig function,
         }
         ShowGain()                                      ;Use the ShowGain function to display the Gain value in a ToolTip.
     }
@@ -17,12 +17,12 @@ $Volume_Up::                                            ;When Volume Up is press
     }
     return                                              ;End of this hotkey.
 $Volume_Down::                                          ;When Volume Down is pressed,
-    if (Gain > 0) {                                     ;If the Gain can be decreased,
-           Gain--                                       ;Decrease the Gain by 1dB.
-           ShowGain()                                   ;Use the ShowGain function to display the Gain value in a ToolTip.
-        WriteConfig()                                   ;Run the 'WriteConfig' function.
+    if (Gain > 0) {                                     ;If the Gain is not already 0,
+        Gain--                                          ;Decrease the Gain by 1dB,
+        WriteConfig()                                   ;And write that into the config using the WriteConfig function.
+        ShowGain()                                      ;Use the ShowGain function to display the Gain value in a ToolTip.
     }
-    else {                                              ;Otherwise (if Gain is at 0),
+    else {                                              ;Otherwise (if Gain is already 0),
         Send {Volume_Down}                              ;Decrease System Volume normally.
     }
     return                                              ;End of this hotkey.
@@ -38,6 +38,6 @@ ShowGain() {
 
 WriteConfig() {                                         ;The function 'WriteConfig' takes care of writing changes to the config file.
     FileDelete, %TargetFile%.tmp.txt                    ;Delete the old config file in preparation for rewrite.
-    FileAppend, Preamp: %Gain% dB, %TargetFile%.tmp.txt ;Write to a Temp File. This ensures the volume adjustment process is smooth and without popping noises.
-    FileCopy, %TargetFile%.tmp.txt, %TargetFile%, 1     ;Overwrite the Target File with the Temp File.
-}
+    FileAppend, Preamp: %Gain% dB, %TargetFile%.tmp.txt ;Write to a Temp File first,
+    FileCopy, %TargetFile%.tmp.txt, %TargetFile%, 1     ;Then overwrite the Target File with the Temp File,
+}                                                       ;To make the volume adjustment process smoother and reduce popping noises.
