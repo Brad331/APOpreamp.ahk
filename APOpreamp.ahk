@@ -1,4 +1,4 @@
-global TargetFile := "C:\Program Files\EqualizerAPO\config\DynamiQ\Gain.txt" ;The script will write to this config file.
+global TargetFile := "C:\Program Files\EqualizerAPO\config\DynamiQ-master\Gain.txt" ;The script will write to this config file.
 global Gain := 0                                        ;Initialize integer 'Gain' with value 0.
 WriteConfig()                                           ;Apply the initialized value.
 CoordMode, ToolTip                                      ;Set the ToolTip to Coordinate Mode to make it show at an absolute position on the screen.
