@@ -28,13 +28,29 @@ $Volume_Down::                                          ;When Volume Down is pre
     return                                              ;End of this hotkey.
 
 ShowGain() {
-    ToolTip, Gain: %Gain%, 124, 80                      ;Show the Gain value in a ToolTip on the screen's top-left corner.
-    SetTimer, RemoveToolTip, -1000                      ;Set a 1000ms timer for the ToolTip.
+    ; Get screen dimensions
+    SysGet, MonitorWorkArea, MonitorWorkArea, 1
+    MonitorWidth := MonitorWorkAreaRight - MonitorWorkAreaLeft
+    MonitorHeight := MonitorWorkAreaBottom - MonitorWorkAreaTop
+
+    ; Calculate tooltip position
+    TooltipWidth := 120 ; Adjust the width as needed
+    TooltipHeight := 20 ; Adjust the height as needed
+    TooltipX := ((MonitorWidth // 2) - (TooltipWidth // 2)) + 30 ; Center horizontally
+    TooltipY := MonitorWorkAreaBottom - TooltipHeight - 65 ; Align to the bottom with 65 pixels padding
+
+    ToolTip, Gain: %Gain%, TooltipX, TooltipY, , Segoe UI ; Show the Gain value in a ToolTip at the center bottom with padding using Segoe UI font
+    SetTimer, RemoveToolTip, -1000 ; Set a 1000ms timer for the ToolTip.
     return
-    RemoveToolTip:                                      ;Auto-disappear the ToolTip.
-    ToolTip
+
+    RemoveToolTip: ; Auto-disappear the ToolTip.
+        ToolTip
     return
 }
+
+
+
+
 
 WriteConfig() {                                         ;The function 'WriteConfig' takes care of writing changes to the config file.
     FileDelete, %TargetFile%.tmp.txt                    ;Delete the old config file in preparation for rewrite.
